@@ -1,6 +1,14 @@
 package com.nesposi3;
 
 public class TimePair implements Comparable<TimePair>{
+    public double getReal() {
+        return real;
+    }
+
+    public int getDiscrete() {
+        return discrete;
+    }
+
     private double real;
     private int discrete;
     public TimePair(double real){
