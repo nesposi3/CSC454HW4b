@@ -62,7 +62,6 @@ public class VendingMachine {
             timeElapsed = timePair.getReal() - previousTime.getReal();
             char inputChar = splits[1].charAt(0);
             // Run lambda/delta
-            //TODO input after int/conf state not correct
             if (Double.compare(timeElapsed, timeAdvance()) > 0) {
                 // There should be an internal/confluent delta before this input
                 System.out.println(lambda());
@@ -72,8 +71,8 @@ public class VendingMachine {
                 } else {
                     // Input in-between, internal case
                     deltaInt();
+                    deltaExt(inputChar);
                 }
-                deltaExt(inputChar);
             } else {
                 // No waiting, external case
                 deltaExt(inputChar);
