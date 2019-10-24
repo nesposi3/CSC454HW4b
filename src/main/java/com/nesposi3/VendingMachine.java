@@ -22,7 +22,7 @@ public class VendingMachine {
     }
 
     private String lambda() throws CallManagerException {
-        StringBuilder out = new StringBuilder("Out: {");
+        StringBuilder out = new StringBuilder(" {OUT: ");
         int val = this.value;
         while (val >= 100) {
             //vend coffee
@@ -53,36 +53,43 @@ public class VendingMachine {
      *
      * @param inp The input trajectory
      */
-    public void simulate(List<String> inp) throws CallManagerException {
+    public void simulate(List<String> inp,boolean debug) throws CallManagerException {
         TimePair previousTime = new TimePair(0.0);
+        TimePair internalTime = previousTime.advanceBy(2.0);
         for (int i = 0; i < inp.size(); i++) {
             double timeElapsed;
             String[] splits = inp.get(i).split(",");
             TimePair timePair = new TimePair(Double.parseDouble(splits[0]));
             timeElapsed = timePair.getReal() - previousTime.getReal();
+            internalTime = previousTime.advanceBy(2.0);
+            previousTime = timePair;
             char inputChar = splits[1].charAt(0);
             // Run lambda/delta
-            if (Double.compare(timeElapsed, timeAdvance()) > 0) {
+            if (Double.compare(timeElapsed, timeAdvance()) >= 0) {
                 // There should be an internal/confluent delta before this input
-                System.out.println(lambda());
                 if (Double.compare(timeElapsed, timeAdvance()) == 0) {
                     // Input on same time as timeAdvance, confluent case
                     deltaConf(inputChar);
+                    System.out.println(internalTime + (debug ?("{INP:" + splits[1] + "} "):"")+ lambda());
                 } else {
                     // Input in-between, internal case
+                    System.out.println(internalTime + " " + lambda());
                     deltaInt();
+                    // This must also be run for the input after the internal case
                     deltaExt(inputChar);
                 }
             } else {
                 // No waiting, external case
+                if(debug){
+                    System.out.println(timePair + "{INP:" + splits[1] + "} { Delta External }");
+                }
                 deltaExt(inputChar);
             }
-            System.out.println(timePair + " " + splits[1]);
-            previousTime = timePair;
         }
         if (Double.compare(2.0, timeAdvance()) == 0) {
+            internalTime = previousTime.advanceBy(2.0);
             // Another lambda and internal delta must be executed after input trajectory
-            System.out.println(lambda());
+            System.out.println(internalTime + lambda());
             deltaInt();
         }
     }
@@ -114,8 +121,22 @@ public class VendingMachine {
         }
     }
 
-    private void deltaConf(int q) {
-
+    private void deltaConf(char inp) throws CallManagerException{
+        int[] change = this.getChange(this.value, this.quarter, this.dime, this.nickel);
+        this.value = 0;
+        if(inp == 'q'){
+            this.quarter++;
+            this.value = 25;
+        }else if(inp == 'd'){
+            this.dime++;
+            this.value = 10;
+        }else if(inp=='n'){
+            this.nickel++;
+            this.value = 5;
+        }
+        this.quarter -= change[0];
+        this.dime -= change[1];
+        this.nickel -= change[2];
     }
 
     private double timeAdvance() {

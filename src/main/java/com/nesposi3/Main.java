@@ -10,13 +10,21 @@ public class Main {
         VendingMachine vendingMachine = new VendingMachine();
         Scanner sc = new Scanner(System.in);
         ArrayList<String> trajectory = new ArrayList<>();
-        File f = new File(args[0]);
+        boolean debug = false;
+        File f = new File("traj.txt");
+        for (int i = 0; i <args.length ; i++) {
+            if(args[i].equals("--debug")|| args[i].equals("-d")){
+                debug = true;
+            }else{
+                f = new File(args[i]);
+            }
+        }
         try {
             Scanner fileScanner = new Scanner(f);
             while (fileScanner.hasNextLine()) {
                 trajectory.add(fileScanner.nextLine());
             }
-            vendingMachine.simulate(trajectory);
+            vendingMachine.simulate(trajectory,debug);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
