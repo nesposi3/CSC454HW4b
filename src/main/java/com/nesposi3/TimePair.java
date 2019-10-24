@@ -39,9 +39,22 @@ public class TimePair implements Comparable<TimePair>{
     public int compareTo(TimePair o) {
         //Same real component
         if(Double.compare(real,o.real)==0){
-            return this.discrete - o.discrete;
+            return Integer.compare(this.discrete , o.discrete);
         }else{
             return Double.compare(real,o.real);
+        }
+    }
+    //TODO Implement this
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    public TimePair advanceBy(TimePair disp){
+        if(Double.compare(disp.real,0)==0){
+            return new TimePair(real,discrete + disp.discrete);
+        }else{
+            return new TimePair(real+disp.real,0);
         }
     }
 }
