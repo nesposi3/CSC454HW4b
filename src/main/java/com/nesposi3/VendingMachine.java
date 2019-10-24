@@ -73,6 +73,7 @@ public class VendingMachine {
                     // Input in-between, internal case
                     deltaInt();
                 }
+                deltaExt(inputChar);
             } else {
                 // No waiting, external case
                 deltaExt(inputChar);

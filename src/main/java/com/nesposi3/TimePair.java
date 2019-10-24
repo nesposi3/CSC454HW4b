@@ -57,4 +57,11 @@ public class TimePair implements Comparable<TimePair>{
             return new TimePair(real+disp.real,0);
         }
     }
+    public TimePair advanceBy(double real){
+        if(Double.compare(real,0)==0){
+            return new TimePair(this.real,this.discrete + 1);
+        }else{
+            return new TimePair(this.real + real);
+        }
+    }
 }
