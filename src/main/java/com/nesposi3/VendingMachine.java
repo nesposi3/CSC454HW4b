@@ -69,8 +69,8 @@ public class VendingMachine {
                 // There should be an internal/confluent delta before this input
                 if (Double.compare(timeElapsed, timeAdvance()) == 0) {
                     // Input on same time as timeAdvance, confluent case
-                    deltaConf(inputChar);
                     System.out.println(internalTime + (debug ?("{INP:" + splits[1] + "} "):"")+ lambda());
+                    deltaConf(inputChar);
                 } else {
                     // Input in-between, internal case
                     System.out.println(internalTime + " " + lambda());
