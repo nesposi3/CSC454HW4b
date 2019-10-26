@@ -44,10 +44,9 @@ public class TimePair implements Comparable<TimePair>{
             return Double.compare(real,o.real);
         }
     }
-    //TODO Implement this
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Integer.hashCode(discrete) ^ Double.hashCode(real);
     }
 
     public TimePair advanceBy(TimePair disp){
