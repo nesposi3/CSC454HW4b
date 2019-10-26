@@ -76,12 +76,15 @@ public class VendingMachine {
                     System.out.println(internalTime + " " + lambda());
                     deltaInt();
                     // This must also be run for the input after the internal case
+                    if(debug){
+                        System.out.println(timePair + "{INP:" + inputChar + "} { Delta External }");
+                    }
                     deltaExt(inputChar);
                 }
             } else {
                 // No waiting, external case
                 if(debug){
-                    System.out.println(timePair + "{INP:" + splits[1] + "} { Delta External }");
+                    System.out.println(timePair + "{INP:" + inputChar + "} { Delta External }");
                 }
                 deltaExt(inputChar);
             }
