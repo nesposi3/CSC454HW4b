@@ -1,5 +1,7 @@
 package com.nesposi3;
 
+import java.util.Objects;
+
 public class TimePair implements Comparable<TimePair>{
     public double getReal() {
         return real;
@@ -9,8 +11,8 @@ public class TimePair implements Comparable<TimePair>{
         return discrete;
     }
 
-    private double real;
-    private int discrete;
+    private final double real;
+    private final int discrete;
     public TimePair(double real){
         this.real = real;
         this.discrete = 0;
@@ -46,7 +48,7 @@ public class TimePair implements Comparable<TimePair>{
     }
     @Override
     public int hashCode() {
-        return Integer.hashCode(discrete) ^ Double.hashCode(real);
+        return Objects.hash(discrete,real);
     }
 
     public TimePair advanceBy(TimePair disp){
